@@ -22,28 +22,16 @@ export const Navbar = () => {
 
           {/* Desktop Links */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link
-              to="/"
-              className="text-gray-300 hover:text-white transition-colors duration-200"
-            >
+            <Link to="/" className="text-gray-300 hover:text-white transition-colors duration-200">
               Home
             </Link>
-            <Link
-              to="/create"
-              className="text-gray-300 hover:text-white transition-colors duration-200"
-            >
+            <Link to="/create" className="text-gray-300 hover:text-white transition-colors duration-200">
               Create Post
             </Link>
-            <Link
-              to="/communities"
-              className="text-gray-300 hover:text-white transition-colors duration-200"
-            >
+            <Link to="/communities" className="text-gray-300 hover:text-white transition-colors duration-200">
               Communities
             </Link>
-            <Link
-              to="/community/create"
-              className="text-gray-300 hover:text-white transition-colors duration-200"
-            >
+            <Link to="/community/create" className="text-gray-300 hover:text-white transition-colors duration-200">
               Create Community
             </Link>
           </div>
@@ -116,34 +104,49 @@ export const Navbar = () => {
       {menuOpen && (
         <div className="md:hidden bg-[rgba(10,10,10,0.95)] border-t border-white/10">
           <div className="px-4 pt-3 pb-4 space-y-2">
-            <Link
-              to="/"
-              onClick={handleNavClick}
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition"
-            >
+            <Link to="/" onClick={handleNavClick} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition">
               Home
             </Link>
-            <Link
-              to="/create"
-              onClick={handleNavClick}
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition"
-            >
+            <Link to="/create" onClick={handleNavClick} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition">
               Create Post
             </Link>
-            <Link
-              to="/communities"
-              onClick={handleNavClick}
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition"
-            >
+            <Link to="/communities" onClick={handleNavClick} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition">
               Communities
             </Link>
-            <Link
-              to="/community/create"
-              onClick={handleNavClick}
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition"
-            >
+            <Link to="/community/create" onClick={handleNavClick} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition">
               Create Community
             </Link>
+
+            {/* 👇 Mobile Auth Section 👇 */}
+            <div className="pt-3 border-t border-white/10">
+              {user ? (
+                <div className="flex items-center space-x-3 px-3">
+                  {user.user_metadata?.avatar_url && (
+                    <img
+                      src={user.user_metadata.avatar_url}
+                      alt="User Avatar"
+                      className="w-8 h-8 rounded-full object-cover"
+                    />
+                  )}
+                  <span className="text-gray-300 text-sm">{displayName}</span>
+                  <button
+                    onClick={signOut}
+                    className="bg-red-500 hover:bg-red-600 transition px-3 py-1 rounded text-white text-sm ml-auto"
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              ) : (
+                <div className="px-3 pt-3">
+                  <button
+                    onClick={signInWithGithub}
+                    className="w-full bg-blue-600 hover:bg-blue-700 transition px-3 py-2 rounded text-white text-sm"
+                  >
+                    Sign in with GitHub
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
