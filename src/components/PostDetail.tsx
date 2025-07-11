@@ -10,21 +10,20 @@ interface Props {
 
 // Update: fetch post with its community name
 const fetchPostById = async (
-  id: number
-): Promise<Post & { community: { name: string }; user: { username: string } }> => {
-  const { data, error } = await supabase
-    .from("posts")
-    .select("*, community:communities(name), user:users(username)")
-    .eq("id", id)
-    .single();
+    id: number
+): Promise<Post & { community: { name: string } }> => {
+    const { data, error } = await supabase
+        .from("posts")
+        .select("*, community:communities(name)")
+        .eq("id", id)
+        .single();
 
-  if (error) {
-    throw new Error(error.message);
-  }
+    if (error) {
+        throw new Error(error.message);
+    }
 
-  return data as Post & { community: { name: string }; user: { username: string } };
+    return data as Post & { community: { name: string } };
 };
-
 
 export const PostDetail = ({ postId }: Props) => {
     const { data, error, isLoading } = useQuery<
