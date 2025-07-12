@@ -116,15 +116,7 @@ export const LikeButton = ({ postId }: Props) => {
                 👎 <span>{dislikes}</span>
             </button>
 
-            <button
-                onClick={() => mutate(2)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition  shadow-md hover:scale-105 ${userVote === 2
-                        ? "bg-pink-600 text-white"
-                        : "bg-zinc-800 text-zinc-200 hover:bg-zinc-700"
-                    }`}
-            >
-                ❤️ <span>{votes?.filter((v) => v.vote === 2).length || 0}</span>
-            </button>
+            
         </div>
     );
 
