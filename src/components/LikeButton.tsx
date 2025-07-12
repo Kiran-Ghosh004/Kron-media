@@ -117,7 +117,7 @@ export const LikeButton = ({ postId }: Props) => {
             </button>
 
             <button
-                onClick={() => mutate(1)}
+                onClick={() => mutate(2)}
                 className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition  shadow-md hover:scale-105 ${userVote === 2
                         ? "bg-pink-600 text-white"
                         : "bg-zinc-800 text-zinc-200 hover:bg-zinc-700"

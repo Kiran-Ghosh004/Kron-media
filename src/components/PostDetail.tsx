@@ -5,93 +5,82 @@ import { LikeButton } from "./LikeButton";
 import { CommentSection } from "./CommentSection";
 
 interface Props {
-    postId: number;
+  postId: number;
 }
 
-// Update: fetch post with its community name
-const fetchPostById = async (
-    id: number
-): Promise<Post & { community: { name: string } }> => {
-    const { data, error } = await supabase
-        .from("posts")
-        .select("*, community:communities(name)")
-        .eq("id", id)
-        .single();
+const fetchPostById = async (id: number): Promise<Post> => {
+  const { data, error } = await supabase
+    .from("posts")
+    .select("*")
+    .eq("id", id)
+    .single();
 
-    if (error) {
-        throw new Error(error.message);
-    }
+  if (error) throw new Error(error.message);
 
-    return data as Post & { community: { name: string } };
+  return data as Post;
 };
 
 export const PostDetail = ({ postId }: Props) => {
-    const { data, error, isLoading } = useQuery<
-        Post & { community: { name: string } },
-        Error
-    >({
-        queryKey: ["post", postId],
-        queryFn: () => fetchPostById(postId),
-    });
+  const { data, error, isLoading } = useQuery<Post, Error>({
+    queryKey: ["post", postId],
+    queryFn: () => fetchPostById(postId),
+  });
 
-    if (isLoading) {
-        return (
-            <div className="text-center text-gray-500 text-lg py-10 animate-pulse">
-                Loading posts...
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="text-center text-red-500 text-lg py-10">
-                Error loading posts: {error.message}
-            </div>
-        );
-    }
-
+  if (isLoading) {
     return (
-        <div className="max-w-3xl mx-auto bg-zinc-900 border border-zinc-700 p-6 rounded-xl shadow-lg text-white space-y-6">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-transparent bg-clip-text">
-                {data?.title}
-            </h2>
-
-            {/* 👇 Community name display */}
-            {(
-                <p className="text-sm text-gray-400 mt-1">
-                    Posted in:{" "}
-                    <span className="font-medium">
-                        {data?.community?.name ? data.community.name : "General"}
-                    </span>
-                </p>
-            )}
-
-            <a href={data?.image_url} target="_blank" rel="noopener noreferrer">
-                <img
-                    src={data?.image_url}
-                    alt={data?.title}
-                    className="w-full max-h-[500px] object-contain rounded-lg shadow-md"
-                />
-            </a>
-
-
-            <h3 className="text-lg leading-relaxed text-zinc-300 mt-5">{data?.content}</h3>
-
-            <div className="flex justify-between items-center mt-6">
-                <span className="text-gray-400 text-sm">
-                    Posted on: {new Date(data!.created_at).toLocaleDateString()}
-                </span>
-                {data?.avatar_url && (
-                    <img
-                        src={data.avatar_url}
-                        alt="User Avatar"
-                        className="w-[35px] h-[35px] rounded-full object-cover border border-white/20 shadow-sm"
-                    />
-                )}
-            </div>
-
-            <LikeButton postId={postId} />
-            <CommentSection postId={postId} />
-        </div>
+      <div className="text-center text-gray-400 py-10 text-lg animate-pulse">
+        Loading post...
+      </div>
     );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center text-red-500 py-10 text-lg">
+        Error: {error.message}
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-3xl mx-auto bg-zinc-900 border border-zinc-700 p-6 rounded-xl shadow-xl text-white space-y-6 transition-all duration-300">
+      <h2 className="text-4xl sm:text-5xl font-extrabold text-center bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent drop-shadow-sm">
+        {data?.title}
+      </h2>
+
+      {data?.image_url && (
+        <a
+          href={data?.image_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block"
+        >
+          <img
+            src={data?.image_url}
+            alt={data?.title}
+            className="w-full max-h-[500px] object-contain rounded-lg shadow-md hover:opacity-90 transition-opacity"
+          />
+        </a>
+      )}
+
+      <p className="text-lg text-zinc-300 leading-relaxed mt-5">
+        {data?.content}
+      </p>
+
+      <p className="text-sm text-gray-500 border-t border-zinc-700 pt-4">
+        📅 Posted on:{" "}
+        <span className="text-gray-400">
+          {new Date(data!.created_at).toLocaleDateString()}
+        </span>
+      </p>
+
+      <div className="pt-2">
+        <LikeButton postId={postId} />
+      </div>
+
+      <div className="pt-4">
+        <CommentSection postId={postId} />
+      </div>
+    </div>
+  );
 };
