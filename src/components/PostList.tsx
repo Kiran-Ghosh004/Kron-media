@@ -37,7 +37,7 @@ export const PostList = () => {
   );
 
   return (
-    <div className=" sm:px-6 lg:px-20 py-7 max-w-5xl mx-auto px-4">
+    <div className="px-4 sm:px-6 lg:px-20 py-7 ">
       {/* Search Input */}
       <div className="flex justify-center mb-8">
         <div className="w-full max-w-xl">
@@ -64,7 +64,7 @@ export const PostList = () => {
 
       {/* Posts Grid */}
       {!isLoading && !error && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
           {filteredPosts && filteredPosts.length > 0 ? (
             filteredPosts.map((post) => <PostItem key={post.id} post={post} />)
           ) : (
