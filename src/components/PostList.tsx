@@ -64,7 +64,7 @@ export const PostList = () => {
 
       {/* Posts Grid */}
       {!isLoading && !error && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6justify-items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
           {filteredPosts && filteredPosts.length > 0 ? (
             filteredPosts.map((post) => <PostItem key={post.id} post={post} />)
           ) : (
