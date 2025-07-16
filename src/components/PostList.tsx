@@ -1,7 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { supabase } from "../supabase-client";
 import { PostItem } from "./PostItem";
-import { PinnedPost } from "./PinnedPost";
+
+import { PostSearch } from "./PostSearch";
 
 export interface Post {
   id: number;
@@ -28,22 +30,50 @@ export const PostList = () => {
     queryFn: fetchPosts,
   });
 
-  if (isLoading) {
-    return <div> Loading posts...</div>;
-  }
+  const [searchQuery, setSearchQuery] = useState("");
 
-  if (error) {
-    return <div> Error: {error.message}</div>;
-  }
-
-  console.log(data);
+  const filteredPosts = data?.filter((post) =>
+    post.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
-    <div className="flex flex-wrap gap-6 justify-center mt-8 md:mt-15">
-      <PinnedPost/>
-      {data?.map((post, key) => (
-        <PostItem post={post} key={key} />
-      ))}
+    <div className="px-4 sm:px-6 lg:px-20 py-7">
+      {/* Search Input */}
+      <div className="flex justify-center mb-8">
+        <div className="w-full max-w-xl">
+          <PostSearch onSearch={setSearchQuery} />
+        </div>
+      </div>
+
+      {/* Pinned Post */}
+      <div className="flex justify-center mb-7">
+        
+      </div>
+
+      {/* Loading State */}
+      {isLoading && (
+        <div className="text-center text-white text-lg font-medium">Loading posts...</div>
+      )}
+
+      {/* Error State */}
+      {error && (
+        <div className="text-center text-red-500 text-lg font-medium">
+          Error: {error.message}
+        </div>
+      )}
+
+      {/* Posts Grid */}
+      {!isLoading && !error && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+          {filteredPosts && filteredPosts.length > 0 ? (
+            filteredPosts.map((post) => <PostItem key={post.id} post={post} />)
+          ) : (
+            <div className="col-span-full text-center text-gray-400 text-md">
+              No posts found for "<span className="italic">{searchQuery}</span>"
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

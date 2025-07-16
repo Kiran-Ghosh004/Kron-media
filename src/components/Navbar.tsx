@@ -34,6 +34,9 @@ export const Navbar = () => {
             <Link to="/community/create" className="text-gray-300 hover:text-white transition-colors duration-200">
               Create Community
             </Link>
+            <Link to="/intro" className="text-gray-300 hover:text-white transition-colors duration-200">
+              Features
+            </Link>
           </div>
 
           {/* Desktop Auth */}
@@ -115,6 +118,9 @@ export const Navbar = () => {
             </Link>
             <Link to="/community/create" onClick={handleNavClick} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition">
               Create Community
+            </Link>
+            <Link to="/intro" onClick={handleNavClick} className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition">
+              Features
             </Link>
 
             {/* 👇 Mobile Auth Section 👇 */}

@@ -8,6 +8,7 @@ import { CommunitiesPage } from "./pages/CommunitiesPage";
 import { CommunityPage } from "./pages/CommunityPage";
 import { Intro } from "./components/Intro";
 
+
 function App() {
   return (
     <div className="flex flex-col min-h-screen bg-black text-grey-100 transition-opacity duration-300 pt-16">
@@ -22,7 +23,8 @@ function App() {
           <Route path="/community/create" element={<CreateCommunityPage />} />
           <Route path="/communities" element={<CommunitiesPage />} />
           <Route path="/community/:id" element={<CommunityPage />} />
-          <Route path="/intro" element={<Intro />} />
+          <Route path="/intro" element={<Intro/>}/>
+          
         </Routes>
       </div>
 
